@@ -3,7 +3,7 @@ import './style.css';
 
 import * as THREE from 'three';
 import { ParametricGeometry } from 'three/examples/jsm/geometries/ParametricGeometry';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 //配置webgl渲染器
 const aspectRatio = window.innerWidth / window.innerHeight;
@@ -20,15 +20,14 @@ const camera = new THREE.OrthographicCamera(
   0.1,
   1000
 );
-camera.position.set(200, 200, 200);
-
+camera.lookAt(0, 0, 0);
 const scene = new THREE.Scene();
 //设置几何
 const geometry = new ParametricGeometry(
   (u, v, target) => {
-    console.log(u, v, target);
+    // console.log(u, v, target);
     //sin(sqrt(a*x^2  + b*y^2))
-    target = new THREE.Vector3(u, v, Math.sin(Math.sqrt(u * u + v * v)));
+    target.set(u, v, Math.sin(Math.sqrt(u * u + v * v)));
   },
   25,
   25
@@ -43,3 +42,4 @@ const animate = () => {
   controls.update();
   renderer.render(scene, camera);
 };
+animate();
