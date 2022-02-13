@@ -29,7 +29,7 @@ camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
 
-//绘制余弦曲面
+//绘制抛物线曲面
 const computeY = (x: number, z: number) => {
   return 20 - (x ** 2 + z ** 2) / 10;
 };
