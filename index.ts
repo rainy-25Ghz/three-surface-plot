@@ -72,6 +72,7 @@ const drawCell = (points: number[][]) => {
     geometry,
     new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors })
   );
+  mesh.material.side=THREE.DoubleSide;
   scene.add(mesh);
   const wireframe = new THREE.WireframeGeometry(geometry);
 
