@@ -9,6 +9,7 @@ import { Vector3 } from 'three/src/math/Vector3';
 //配置webgl渲染器
 const aspectRatio = window.innerWidth / window.innerHeight;
 const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setClearColor(0xffffff);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -21,7 +22,9 @@ const camera = new THREE.OrthographicCamera(
   0.1,
   1000
 );
-camera.position.z = -100;
+
+camera.position.y = 50;
+camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
 
@@ -50,9 +53,17 @@ const drawCell = (points: number[][]) => {
   geometry.setIndex([0, 1, 2, 2, 1, 3]);
   const mesh = new THREE.Mesh(
     geometry,
-    new THREE.MeshLambertMaterial({ color: 0xffee00 })
+    new THREE.MeshBasicMaterial({ color: 0xff0000 })
   );
   scene.add(mesh);
+  const wireframe = new THREE.WireframeGeometry(geometry);
+
+  const line = new THREE.LineSegments(wireframe);
+  line.material.depthTest = false;
+  line.material.opacity = 0.25;
+  line.material.transparent = true;
+
+  scene.add(line);
 };
 
 //设置几何
@@ -68,10 +79,10 @@ const drawCell = (points: number[][]) => {
 // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 // const surface = new THREE.Mesh(geometry, material);
 const pts = [
-  [0, 0, 0],
-  [10, 0, 0],
-  [0, 10, 0],
-  [10, 10, 0],
+  [-10,0,-10],
+  [10, 0, -10],
+  [-10, 0, 10],
+  [10, 0, 10],
 ];
 drawCell(pts);
 // scene.add(surface);
