@@ -47,7 +47,7 @@ const drawCell = (points: number[][]) => {
    const color=new THREE.Color(hsl);
    return [color.r,color.g,color.b];
   });
-  console.log(colors)
+  // console.log(colors)
   const geometry = new THREE.BufferGeometry();
   const positionNumComponents = 3;
   const uvNumComponents = 2;
