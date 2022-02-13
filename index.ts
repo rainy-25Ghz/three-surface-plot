@@ -9,7 +9,7 @@ import { Vector3 } from 'three/src/math/Vector3';
 //配置webgl渲染器
 const aspectRatio = window.innerWidth / window.innerHeight;
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setClearColor(0xffffff);
+renderer.setClearColor(0x0000000);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -60,7 +60,7 @@ const drawCell = (points: number[][]) => {
 
   const line = new THREE.LineSegments(wireframe);
   line.material.depthTest = false;
-  line.material.opacity = 0.25;
+  line.material.opacity = 0.55;
   line.material.transparent = true;
 
   scene.add(line);
@@ -79,9 +79,9 @@ const drawCell = (points: number[][]) => {
 // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 // const surface = new THREE.Mesh(geometry, material);
 const pts = [
-  [-10,0,-10],
-  [10, 0, -10],
+  [-10, 0, -10],
   [-10, 0, 10],
+  [10, 0, -10],
   [10, 0, 10],
 ];
 drawCell(pts);
