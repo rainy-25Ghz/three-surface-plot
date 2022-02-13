@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { ParametricGeometry } from 'three/examples/jsm/geometries/ParametricGeometry';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Vector3 } from 'three/src/math/Vector3';
+import { Color } from 'three/src/math/Color';
 
 //配置webgl渲染器
 const aspectRatio = window.innerWidth / window.innerHeight;
@@ -15,15 +16,15 @@ document.body.appendChild(renderer.domElement);
 
 //设置相机为正交投影
 const camera = new THREE.OrthographicCamera(
-  window.innerWidth / -2,
-  window.innerWidth / 2,
-  window.innerHeight / 2,
-  window.innerHeight / -2,
+  150*aspectRatio / -2,
+  150*aspectRatio / 2,
+  150 / 2,
+  150 / -2,
   0.1,
   1000
 );
 
-camera.position.z = -150;
+camera.position.set(150,150,150);
 camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
@@ -41,7 +42,12 @@ const drawCell = (points: number[][]) => {
   const p3 = points[3]; //右上角
   const positions = [...p0, ...p1, ...p2, ...p3];
   const uvs = [...[0, 0], ...[1, 0], ...[0, 1], ...[1, 1]];
-  const colors = points.map((val, index) => {});
+  const colors = points.flatMap((pt, index) => {
+   const hsl=`hsl(${pt[1]*18}, 100%, 50%)`;
+   const color=new THREE.Color(hsl);
+   return [color.r,color.g,color.b];
+  });
+  console.log(colors)
   const geometry = new THREE.BufferGeometry();
   const positionNumComponents = 3;
   const uvNumComponents = 2;
@@ -57,10 +63,11 @@ const drawCell = (points: number[][]) => {
     new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents)
   );
   geometry.computeVertexNormals();
+  geometry.setAttribute("color",new THREE.BufferAttribute(new Float32Array(colors),3))
   geometry.setIndex([0, 1, 2, 2, 1, 3]);
   const mesh = new THREE.Mesh(
     geometry,
-    new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    new THREE.MeshBasicMaterial()
   );
   scene.add(mesh);
   const wireframe = new THREE.WireframeGeometry(geometry);
