@@ -23,25 +23,17 @@ const camera = new THREE.OrthographicCamera(
   1000
 );
 
-camera.position.y = 50;
+camera.position.z = -10;
 camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
 
 //绘制余弦曲面
-const computeY=(x:number,z:number)=>{
-  return Math.cos(x**2+z**2);
-}
-const step_x=2;
-const step_z=2;
-const dataPts=[]
-for(let i=-20;i<20;i+=step_x){
-  for(let j=-20;j<20;j+=step_z){
-    const p0=[i,computeY(i,j),j];
-  }
-}
-  
-
+const computeY = (x: number, z: number) => {
+  return 20 - (x ** 2 + z ** 2) / 10;
+};
+const step_x = 0.5;
+const step_z = 0.5;
 const drawCell = (points: number[][]) => {
   const p0 = points[0]; //左下角
   const p1 = points[1]; //右下角
@@ -49,9 +41,7 @@ const drawCell = (points: number[][]) => {
   const p3 = points[3]; //右上角
   const positions = [...p0, ...p1, ...p2, ...p3];
   const uvs = [...[0, 0], ...[1, 0], ...[0, 1], ...[1, 1]];
-  const colors=points.map((val,index)=>{
-
-  })
+  const colors = points.map((val, index) => {});
   const geometry = new THREE.BufferGeometry();
   const positionNumComponents = 3;
   const uvNumComponents = 2;
@@ -77,11 +67,21 @@ const drawCell = (points: number[][]) => {
 
   const line = new THREE.LineSegments(wireframe);
   line.material.depthTest = false;
-  line.material.opacity = 0.45;
+  line.material.opacity = 0.25;
   line.material.transparent = true;
 
   scene.add(line);
 };
+
+for (let i = -10; i < 10; i += step_x) {
+  for (let j = -10; j < 10; j += step_z) {
+    const p0 = [i, computeY(i, j), j];
+    const p2 = [i + step_x, computeY(i + step_x, j), j];
+    const p1 = [i, computeY(i, j + step_z), j + step_z];
+    const p3 = [i + step_x, computeY(i + step_x, j + step_z), j + step_z];
+    drawCell([p0, p1, p2, p3]);
+  }
+}
 
 //设置几何
 // const geometry = new ParametricGeometry(
