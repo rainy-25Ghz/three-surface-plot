@@ -23,7 +23,7 @@ const camera = new THREE.OrthographicCamera(
   1000
 );
 
-camera.position.z = -10;
+camera.position.z = -150;
 camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
